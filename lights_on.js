@@ -61,30 +61,21 @@ function q(){
 //available memory fn's --------
 
 //infinit random animation --------
-function anim_queue (animFn, start){ //generate anim queue
-  for(i=0; i < queue; i++){
-    animFn.queue({
-      to: (start != undefined)? start : Math.random()/1.5,
-      duration: timer/1000,
-    });
-  }
-}
 
 function add_queue(anim) { //add new iteration
-  anim._phase = anim._queue[queue].to;
+  anim._phase = anim._queue[0].to;
   anim._queue = [{
-    from: anim._queue[queue].to,
+    from: anim._queue[0].to,
     to: Math.random()/1.5,
     duration: timer/1000,
     updateInterval: 0.1
   }];
-  anim_queue(anim);
+  //anim_queue(anim);
   anim.play();
 }
 
 const timer = 1000;
-const queue = 1;
-let is_animate = true;
+const is_animate = true;
 
 const animations_queue = lights.map(light => { //create animation objects
   let anim = animations.create({
@@ -94,9 +85,11 @@ const animations_queue = lights.map(light => { //create animation objects
     updateInterval: 0.3
   });
   
+  anim._end = 0;
+  
   anim.on('update', function(val) {
     analogWrite(light, val);
-    if(anim._phase == 0){ //if animation ends generate new queue
+    if(anim._phase == 0 && is_animate == true){ //if animation ends generate new queue
       add_queue(anim);
     }
   });
@@ -104,8 +97,7 @@ const animations_queue = lights.map(light => { //create animation objects
   return anim;
 });
 
-animations_queue.map(anim => { //start animation
-  anim_queue(anim);
+animations_queue.map((anim, index) => { //start animation
   anim.play();
 });
 //infinit random animation --------
