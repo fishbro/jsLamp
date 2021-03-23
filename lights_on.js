@@ -1,17 +1,24 @@
+//libs
 const wifi = require("Wifi");
 const animations = require('@amperka/animation');
 
 //init lights
-const lights = [D5,D18,D19,D21,D22];
-let lightsState = [];
+const lights = [
+  D5,
+  D18,
+  D19,
+  D21,
+  D22
+];
+
+//ligts off
 lights.map(function(light, index){
   light.write(false);
-  lightsState[index] = 0;
 });
 
-//init wifi
+//init wifi --------
 const ssid = 'hello_my_dear_stranger';
-const password = '46554655';
+const password = '12345678';
 const port = 80;
 const index = require("Storage").read('index.html');
 
@@ -35,8 +42,9 @@ wifi.startAP(ssid, {password: password}, function() {
 
     console.log(`Web server running at http://${wifi.getAPIP().ip}:${port}`);
 });
+//init wifi --------
 
-//available memory fn's
+//available memory fn's --------
 let memInterval = null;
 function top(){
   memInterval = setInterval(function(){
@@ -50,71 +58,54 @@ function top(){
 function q(){
  clearInterval(memInterval);
 }
+//available memory fn's --------
+
+//infinit random animation --------
+function anim_queue (animFn, start){ //generate anim queue
+  for(i=0; i < queue; i++){
+    animFn.queue({
+      to: (start != undefined)? start : Math.random()/1.5,
+      duration: timer/1000,
+    });
+  }
+}
+
+function add_queue(anim) { //add new iteration
+  anim._phase = anim._queue[queue].to;
+  anim._queue = [{
+    from: anim._queue[queue].to,
+    to: Math.random()/1.5,
+    duration: timer/1000,
+    updateInterval: 0.1
+  }];
+  anim_queue(anim);
+  anim.play();
+}
 
 const timer = 1000;
+const queue = 1;
 let is_animate = true;
 
-function transition(target, from, to, interval, callback){
+const animations_queue = lights.map(light => { //create animation objects
   let anim = animations.create({
-    from: from,
-    to: to,
-    duration: interval/1000,
-    updateInterval: 0.1
+    from: 0,
+    to: 1,
+    duration: timer/1000,
+    updateInterval: 0.3
   });
   
   anim.on('update', function(val) {
-    analogWrite(target, val);
-  });
-  
-  anim.play();
-  
-  setTimeout(function(){
-    anim.stop();
-    anim = undefined;
-    
-    if(callback === undefined) callback = function(){};
-    callback(to);
-  }, interval);
-}
-
-let promises = [];
-let cycleAnim = () => {
-  lights.map(function(light, index){
-    promises[index] = new Promise((resolve, reject) => {
-      transition(light, lightsState[index], Math.random()/2, timer, function(lastState){
-        lightsState[index] = lastState;
-        resolve(true);
-      });
-    });
-  });
-  
-  Promise.all(promises).then(values => {
-    if(is_animate){
-      cycleAnim();
+    analogWrite(light, val);
+    if(anim._phase == 0){ //if animation ends generate new queue
+      add_queue(anim);
     }
   });
-};
+  
+  return anim;
+});
 
-/*
-let cycleAnim = () => {
-  let promises = [];
-  lights.map(function(light, index){
-    promises[index] = () => {
-      new Promise((resolve, reject) => {
-        transition(light, lightsState[index], (Math.random()/2).toFixed(1), timer, function(lastState){
-          lightsState[index] = lastState;
-          resolve(true);
-        });
-      }).then(val => {
-        if(is_animate){
-          promises[index]();
-        }
-      });
-    };
-    promises[index]();
-  });
-};
-*/
-
-//top();
-cycleAnim();
+animations_queue.map(anim => { //start animation
+  anim_queue(anim);
+  anim.play();
+});
+//infinit random animation --------

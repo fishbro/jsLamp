@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP 32 startup page</title>
+</head>
+<body>
+    <p style="text-align: center;">Welcome to espruino server!</p>
+    <div style="text-align: center;">
+        <input type="checkbox" name="switch" id="switch">
+        <label for="switch">
+            switch!
+        </label>
+    </div>
+
+    <style>
+        #switch{
+            display: none;
+        }
+
+        #switch + label{
+            background: #dedede;
+            height: 42px;
+            line-height: 38px;
+            padding: 0 32px;
+            font-size: 20px;
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: inset 0px -4px 0px rgba(0,0,0,.1), 0 3px 3px rgba(0,0,0,.1);
+        }
+        #switch:checked + label{
+            line-height: 42px;
+            background: #ff0000;
+            box-shadow: inset 0px 2px 0px rgba(0,0,0,.2), 0 1px 3px rgba(0,0,0,.1);
+        }
+    </style>
+
+    <script>
+        var switchMark = document.getElementById('switch');
+
+        switchMark.addEventListener('change', function(e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", `/?on=${e.target.checked}`);
+            xhr.send();
+
+            xhr.onload = function() {
+                if (xhr.status != 200) {
+                    alert(`Error ${xhr.status}: ${xhr.statusText}`);
+                }
+            };
+        });
+    </script>
+</body>
+</html>
