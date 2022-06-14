@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "start": "gulp",
+    "watch": "espruino --no-ble -b 115200 -t -d \"Silicon Labs\" --watch app.js",
+    "watch-min": "espruino --no-ble -b 115200 -m -t -d \"Silicon Labs\" --watch app.js",
+    "list": "espruino --no-ble --list"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "espruino": "^0.1.43",
+    "gulp": "^4.0.2",
+    "rollup": "^2.75.6"
+  },
+  "dependencies": {
+    "micro-tween": "^0.0.1"
+  }
+}
