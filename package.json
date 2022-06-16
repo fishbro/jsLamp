@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "start": "concurrently --raw \"npm:build\" \"npm:watch\"",
+    "start": "concurrently --raw \"npm:buildWatch\" \"npm:watch\"",
     "build": "gulp ts",
+    "buildWatch": "gulp",
     "watch": "espruino --no-ble --storage .bootcde:- -b 115200 -t -d \"Silicon Labs\" --watch dist.js",
     "flash": "espruino --no-ble --storage .bootcde:- -b 115200 -t -d \"Silicon Labs\" dist.js",
     "list": "espruino --no-ble --list"
