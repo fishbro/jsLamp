@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "strict": false,
+    "typeRoots": [
+      "./node_modules/@types/"
+    ],
+    "types": ["espruino", "node"]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

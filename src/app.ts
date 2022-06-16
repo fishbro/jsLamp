@@ -1,9 +1,8 @@
-//libs
-//const wifi = require("Wifi");
+//@ts-ignore
 import tween from 'micro-tween';
 
 //init lights
-const lights = [
+const lights: Pin[] = [
     D5,
     D18,
     D19,
@@ -13,15 +12,15 @@ const lights = [
 ];
 
 //ligts off
-lights.map(function(light, index){
+lights.map(function(light){
     light.write(false);
 });
+analogWrite(D23, 1, {soft:true});
 
-
-let valuesFrom = lights.map(() => Math.random());
+let valuesFrom: number[] = lights.map(() => Math.random());
 
 const animate = () => {
-    let valuesTo = lights.map(() => Math.random());
+    let valuesTo: number[] = lights.map(() => Math.random());
 
     tween(valuesFrom)
         .to(valuesTo)
@@ -30,8 +29,8 @@ const animate = () => {
         .onStart(function() {
             // console.log('start');
         })
-        .onUpdate(function(value) {
-            lights.map((pin, key) => analogWrite(pin, value[key]))
+        .onUpdate(function(value: number[]) {
+            lights.map((pin, key) => analogWrite(pin, value[key], null))
         })
         .onComplete(function() {
             // console.log('complete');

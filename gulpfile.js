@@ -13,16 +13,14 @@ let HELPERS = {
     }
 }
 
-gulp.task("js", function (done) {
+gulp.task("ts", function () {
     return HELPERS.execute('rollup -c');
-
-    done();
 });
 
-gulp.task("default", gulp.series("js", function (done) {
+gulp.task("default", gulp.series("ts", function () {
     gulp.watch(
-        "./src/**/*.js",
+        "./src/**/*.ts",
         { ignoreInitial: false, usePolling: true },
-        gulp.series("js")
+        gulp.series("ts")
     );
 }));
