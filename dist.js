@@ -225,9 +225,9 @@ lights.map(function (light) {
     light.write(false);
 });
 analogWrite(D23, 1, { soft: true });
-let valuesFrom = lights.map(() => Math.random());
+let valuesFrom = lights.map(() => Math.random() / 2);
 const animate = () => {
-    let valuesTo = lights.map(() => Math.random());
+    let valuesTo = lights.map(() => Math.random() / 2);
     microTween.exports(valuesFrom)
         .to(valuesTo)
         // .yoyo()

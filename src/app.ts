@@ -17,10 +17,10 @@ lights.map(function(light){
 });
 analogWrite(D23, 1, {soft:true});
 
-let valuesFrom: number[] = lights.map(() => Math.random());
+let valuesFrom: number[] = lights.map(() => Math.random()/2);
 
 const animate = () => {
-    let valuesTo: number[] = lights.map(() => Math.random());
+    let valuesTo: number[] = lights.map(() => Math.random()/2);
 
     tween(valuesFrom)
         .to(valuesTo)
