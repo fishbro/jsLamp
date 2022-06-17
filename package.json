@@ -8,14 +8,12 @@
     "list": "espruino --no-ble --list"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^22.0.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-typescript": "^8.3.3",
+    "@types/node": "^18.0.0",
     "concurrently": "^7.2.2",
     "espruino": "^0.1.43",
     "gulp": "^4.0.2",
     "rollup": "^2.75.6",
-    "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.4.0",
     "typescript": "^4.7.3"
   },

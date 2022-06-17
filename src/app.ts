@@ -1,5 +1,5 @@
 //@ts-ignore
-import tween from 'micro-tween';
+const tween = require('/node_modules/micro-tween/index');
 
 //init lights
 const lights: Pin[] = [
