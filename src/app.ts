@@ -1,5 +1,4 @@
-//@ts-ignore
-const tween = require('/node_modules/micro-tween/index');
+import tween, {update} from './modules/tween-light';
 
 //init lights
 const lights: Pin[] = [
@@ -22,17 +21,17 @@ let valuesFrom: number[] = lights.map(() => Math.random()/2);
 const animate = () => {
     let valuesTo: number[] = lights.map(() => Math.random()/2);
 
-    tween(valuesFrom)
+    new tween(valuesFrom)
         .to(valuesTo)
         // .yoyo()
         // .repeat(10)
-        .onStart(function() {
+        .onStart(() => {
             // console.log('start');
         })
-        .onUpdate(function(value: number[]) {
-            lights.map((pin, key) => analogWrite(pin, value[key], null))
+        .onUpdate((values: Record<string, any>) =>  {
+            lights.map((pin, key) => analogWrite(pin, values[key], null))
         })
-        .onComplete(function() {
+        .onComplete(() =>  {
             // console.log('complete');
             valuesFrom = valuesTo;
             animate();
@@ -42,4 +41,4 @@ const animate = () => {
 
 animate();
 
-setInterval(() => tween.update(),100);
+setInterval(() => update(),100);

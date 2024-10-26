@@ -1,0 +1,3 @@
+[submodule "src/modules/tween-light"]
+	path = src/modules/tween-light
+	url = git@github.com:fishbro/tween-light.git
